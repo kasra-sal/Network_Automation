@@ -1,0 +1,10 @@
+{% for i in loopback_list %}
+{% if inventory_hostname == i.device %}
+{% if skip_loop is not defined or not skip_loop %}
+interface loopback {{ i.loopback_id }}
+ip address {{ i.loopback_add }} 255.255.255.255
+{% endif %}
+{% endif %}
+{% endfor %}
+
+

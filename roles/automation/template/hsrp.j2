@@ -1,0 +1,22 @@
+{% if inventory_hostname in groups['distribution'] %}
+{% for i in hsrp_list %}
+{% if inventory_hostname == i.device %}
+{% if skip_loop is not defined or not skip_loop %}
+{% set svi_id = i.svi_id.split(',') %}
+{% set standby_id = i.standby_id.split(',') %}
+{% set priority = i.priority.split(',') %}
+{% set virtual_address = i.virtual_address.split(',') %}
+{% for index in range(svi_id|length) %}
+interface vlan{{ svi_id[index] }}
+standby version 2
+standby {{ standby_id[index] }} ip {{ virtual_address[index] }} 
+standby {{ standby_id[index] }} preempt
+standby {{ standby_id[index] }} priority {{ priority[index] }}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}
+
+
+

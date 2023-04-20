@@ -1,0 +1,7 @@
+id,device,interface,passive_interface,router_id,area,ospf_id
+1,DLS1,"port-channel 2, port-channel 4, loopback 0",,10.1.1.10,0,20
+2,DLS2,"port-channel 3, port-channel 5, loopback 0",,10.2.2.10,0,20
+3,CLS1,"port-channel 2, port-channel 5, loopback 0",loopback 1,1.1.1.1,0,20
+4,CLS2,"port-channel 3, port-channel 4, loopback 0",loopback 1,2.2.2.2,0,20
+5,DLS1,"vlan 50, loopback 0","vlan 20, vlan 30, vlan 40, vlan 70, vlan 99, vlan 1000",10.1.1.10,20,20
+6,DLS2,"vlan 50, loopback 0","vlan 20, vlan 30, vlan 40, vlan 70, vlan 99, vlan 1000",10.2.2.10,20,20

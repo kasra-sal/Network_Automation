@@ -1,0 +1,5 @@
+id,device,mode,associated_vlan,priority
+1,DLS1,rapid-pvst,"20,30,99,1000",4096
+2,DLS2,rapid-pvst,"40,50",4096
+3,DLS1,rapid-pvst,"40,50",8192
+4,DLS2,rapid-pvst,"20,30",8192

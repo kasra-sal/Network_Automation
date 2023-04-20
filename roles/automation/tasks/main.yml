@@ -1,0 +1,121 @@
+---
+
+- name: Setting appropriate hostname
+  ios_config:
+    lines: hostname {{inventory_hostname }}
+    
+- name: Process Required CSV
+  block:    
+    - name: Reading Vlan CSV file
+      read_csv:
+        path: "roles/automation/CSV/sl2.csv"
+        delimiter: ","
+      register: vlans
+      
+    - name: Reading Unused Ports CSV file
+      read_csv:
+        path: "roles/automation/CSV/Unused_Ports.csv"
+        delimiter: ","
+      register: unused_ports
+    
+    - name: Reading SVI CSV file
+      read_csv:
+        path: "roles/automation/CSV/SVI.csv"
+        delimiter: ","
+      register: svi
+      
+    - name: Reading Trunk CSV file
+      read_csv:
+        path: "roles/automation/CSV/trunk_ports.csv"
+        delimiter: ","
+      register: trunk_port
+
+    - name: Reading Access CSV file
+      read_csv:
+        path: "roles/automation/CSV/access_ports.csv"
+        delimiter: ","
+      register: access_port 
+    
+    - name: Reading loopback CSV file
+      read_csv:
+        path: "roles/automation/CSV/loopback.csv"
+        delimiter: ","
+      register: loopback    
+       
+    - name: Reading Etherchannel CSV file
+      read_csv:
+        path: "roles/automation/CSV/etherchannel_ports.csv"
+        delimiter: ","
+      register: etherchannel
+    
+    - name: Reading Spanning Tree CSV file
+      read_csv:
+        path: "roles/automation/CSV/spanning_tree.csv"
+        delimiter: ","
+      register: spanning_tree
+    
+    - name: Reading HSRP CSV file
+      read_csv:
+        path: "roles/automation/CSV/HSRP.csv"
+        delimiter: ","
+      register: hsrp
+    
+    - name: Reading OSPF CSV file
+      read_csv:
+        path: "roles/automation/CSV/OSPF.csv"
+        delimiter: ","
+      register: ospf
+
+- name: Implementing Required Configs
+  block:
+    - name: vlan config
+      ios_config: src=roles/automation/template/vlan.j2
+      tags: vlan_config
+    
+    - name: shutting down unused ports and assigning them to vlan 70
+      ios_config: src=roles/automation/template/Unused_Ports.j2
+      tags: unused_ports_config
+        
+    - name: svi config
+      ios_config: src=roles/automation/template/svi.j2
+      tags: svi_config      
+    
+    - name: trunk port config
+      ios_config: src=roles/automation/template/trunk_ports.j2 
+      tags: trunk_config
+      vars:
+        ansible_command_timeout: 120
+
+    - name: access port config
+      ios_config: src=roles/automation/template/access_ports.j2 
+      tags: access_config
+      vars:
+        ansible_command_timeout: 120
+       
+    - name: loopback config
+      ios_config: src=roles/automation/template/loopback.j2 
+      tags: loopback_config    
+      
+    - name: etherchannel config
+      ios_config: src=roles/automation/template/etherchannel.j2
+      tags: etherchannel_config  
+      vars:
+        ansible_command_timeout: 120
+        
+    - name: hsrp config
+      ios_config: src=roles/automation/template/hsrp.j2
+      tags: hsrp_config
+      vars:
+        ansible_command_timeout: 120
+    - name: stp config
+      ios_config: src=roles/automation/template/spanning_tree_info.j2 
+      tags: stp_config
+      vars:
+        ansible_command_timeout: 240
+        
+   
+    - name: ospf config
+      ios_config: src=roles/automation/template/ospf.j2 
+      tags: ospf_config        
+        
+

@@ -1,0 +1,6 @@
+---
+- name: Generate switches
+  hosts: distribution:access:core
+  gather_facts: true
+  roles:
+   - automation

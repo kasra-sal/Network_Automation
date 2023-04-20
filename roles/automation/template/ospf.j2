@@ -1,0 +1,38 @@
+{% set configured_hosts =[] %}
+{% for i in ospf_list %}
+{% if inventory_hostname == i.device %}
+{% if skip_loop is not defined or not skip_loop %}
+{% if inventory_hostname not in configured_hosts %}
+ip routing
+ipv6 unicast-routing
+router ospfv3 {{ i.ospf_id }}
+router-id {{ i.router_id }}
+{% if i.passive_interface != "" %}
+passive-interface {{ i.passive_interface }}
+{% else %}
+exit
+interface range {{ i.interface }}
+ipv6 enable
+ospfv3 {{ i.ospf_id }} ipv4 area {{ i.area }}
+no shutdown
+{{ configured_hosts.append(inventory_hostname) }}
+{% endif %}
+{% elif inventory_hostname in configured_hosts %}
+{% if skip_loop is not defined or not skip_loop %}
+{% if i.passive_interface != "" %}
+router ospfv3 {{ i.ospf_id }}
+passive-interface {{ i.passive_interface }}
+{% else %}
+interface range {{ i.interface }}
+ipv6 enable
+ospfv3 {{ i.ospf_id }} ipv4 area {{ i.area }}
+no shutdown
+{% endif %}
+{% if loop.first %}{% set skip_loop = True %}{% endif %}
+{% endif %}
+{% endif %}
+{% endif %}
+{% endif %}
+{% endfor %}
+
+
