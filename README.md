@@ -2,7 +2,7 @@
 
 The goal of this project is to automate configuration of switches and routers using ansible. This project is used to demonstrate basic understanding of ansible and jinja. This project was NOT intended to show knowledge of networking, although basic networking has been done to make this project functional.
 
-# Disclaimer
+# Before We Start
 
 This repository contains necessary yaml files to perform this basic automation. HOWEVER, I decided to not use some of the built in modules such as ios.ios.l2_interfaces to configure as it somewhat limited what I had planned. So I just generated my own csv files and used jinja to import necessary variables into a config format to allow more customizability. It's worth noting a few things:
   -  The contents in the repo are a base point of what could be done, feel free to take ideas and improve it.
@@ -136,4 +136,17 @@ It may take a while to go through, for the sake of simplicity, I will not be exp
 2. Added an entry to main.yml inside respective roles folder => tasks.
 3. Inside the template folde, I created a jinja template respective to the csv
 4. Back into main.yml inside tasks folder, I added an entry to replace necessary parameters inside the jinja template and then push them to the device using ios_config modules.
+
+
+https://user-images.githubusercontent.com/118489496/233573072-e1bf80ba-2b43-40c4-966a-f2b4c1eb6b7d.mp4
+
+
+To have a better understanding of what each jinja template does, I screenshotted some of the outputs: (Need to be Finished)
+
+VLAN
+Unused Ports
+STP
+SVI
+HSRP
+OSPF
 
