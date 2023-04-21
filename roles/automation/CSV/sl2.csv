@@ -1,8 +1,0 @@
-id,vlan_id,name
-1,20,office
-2,30,accounting
-3,40,voip
-4,50,guest
-5,70,unused_ports
-6,1000,native
-7,99,management
