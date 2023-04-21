@@ -1,6 +1,12 @@
 ---
-- name: Generate switches
+- name: Generate Layer 2 Config
   hosts: distribution:access:core
   gather_facts: true
   roles:
-   - automation
+   - Layer2
+   
+- name: Generate Layer 3 Config
+  hosts: distribution:access:core:router
+  gather_facts: false
+  roles:
+   - Layer3

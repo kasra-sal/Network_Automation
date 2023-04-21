@@ -3,7 +3,7 @@
 import csv
 
 	
-with open('roles/automation/CSV/sl2.csv','w',newline='') as file:
+with open('roles/Layer2/CSV/sl2.csv','w',newline='') as file:
 	writer = csv.writer(file)
 	writer.writerow(["id","vlan_id","name"])
 	writer.writerow(["1","20","office"])
@@ -15,16 +15,18 @@ with open('roles/automation/CSV/sl2.csv','w',newline='') as file:
 	writer.writerow(["7","99","management"])	
 	file.close()	
 	
-with open('roles/automation/CSV/Unused_Ports.csv','w',newline='') as file:
+with open('roles/Layer2/CSV/Unused_Ports.csv','w',newline='') as file:
 	writer = csv.writer(file)
 	writer.writerow(["id","device","interface"])
 	writer.writerow(["1","DLS1","g0/2-3, g1/3, g3/0-2"])
 	writer.writerow(["2","DLS2","g0/2-3, g1/3, g3/0-2"])
 	writer.writerow(["3","CLS1","g1/1-3, g3/0-2"])
-	writer.writerow(["4","CLS2","g1/1-3, g3/0-2"])	
+	writer.writerow(["4","CLS2","g1/1-3, g3/0-2"])
+	writer.writerow(["5","ALS1","g1/3, g3/2"])
+	writer.writerow(["6","ALS2","g1/3, g3/2"])	
 	file.close()	
 
-with open('roles/automation/CSV/SVI.csv','w',newline='') as file:
+with open('roles/Layer3/CSV/SVI.csv','w',newline='') as file:
 	writer = csv.writer(file)
 	writer.writerow(["id","device","vlan_id","ip_address"])
 	writer.writerow(["1","DLS1","20,30,40,50","10.0.20.253, 10.0.30.253, 10.0.40.253, 10.0.50.253"])
@@ -34,7 +36,7 @@ with open('roles/automation/CSV/SVI.csv','w',newline='') as file:
 	file.close()	
 
 
-with open('roles/automation/CSV/access_ports.csv','w',newline='') as file:
+with open('roles/Layer2/CSV/access_ports.csv','w',newline='') as file:
 	writer = csv.writer(file)
 	writer.writerow(["id","interface","vlan_id","voice"])
 	writer.writerow(["1","g2/0-1","30",""])
@@ -43,7 +45,7 @@ with open('roles/automation/CSV/access_ports.csv','w',newline='') as file:
 	writer.writerow(["4","g3/0-1","50",""])
 	file.close()
 	
-with open('roles/automation/CSV/trunk_ports.csv','w',newline='') as file:
+with open('roles/Layer2/CSV/trunk_ports.csv','w',newline='') as file:
 	writer = csv.writer(file)
 	writer.writerow(["id","device","interface","allowed_vlans","native_vlan","trunk_mode"])
 	writer.writerow(["1","DLS1","g1/2","20,30,40,50,99","1000","dynamic desirable"])
@@ -51,8 +53,8 @@ with open('roles/automation/CSV/trunk_ports.csv','w',newline='') as file:
 	writer.writerow(["3","ALS1","g1/2","20,30,40,50,99","1000","dynamic auto"])
 	writer.writerow(["4","ALS2","g1/2","20,30,40,50,99","1000","dynamic auto"])
 	file.close()	
-
-with open('roles/automation/CSV/loopback.csv','w',newline='') as file:
+'''
+with open('roles/Layer3/CSV/loopback.csv','w',newline='') as file:
 	writer = csv.writer(file)
 	writer.writerow(["id","device","loopback_add","loopback_id"])
 	writer.writerow(["1","CLS1","192.168.254.1","0"])
@@ -64,8 +66,8 @@ with open('roles/automation/CSV/loopback.csv','w',newline='') as file:
 	writer.writerow(["7","ALS1","192.168.254.5","0"])
 	writer.writerow(["8","ALS2","192.168.254.6","0"])
 	file.close()
-	
-with open('roles/automation/CSV/etherchannel_ports.csv','w',newline='') as file:
+'''	
+with open('roles/Layer2/CSV/etherchannel_ports.csv','w',newline='') as file:
 	writer = csv.writer(file)
 	writer.writerow(["id","layer","device","interface","allowed_vlans","native_vlan","trunk_mode","mode","ip_address","subnetmask","portchannel_id"])
 	writer.writerow(["1","2","DLS1","g1/0-1","20,30,40,50,99","1000","dynamic desirable","desirable","","","5"])
@@ -86,14 +88,14 @@ with open('roles/automation/CSV/etherchannel_ports.csv','w',newline='') as file:
 	writer.writerow(["16","3","CLS2","g2/2-3","","","","desirable","10.168.0.10","255.255.255.252","4"])
 	file.close()	
 	
-with open('roles/automation/CSV/HSRP.csv','w',newline='') as file:
+with open('roles/Layer2/CSV/HSRP.csv','w',newline='') as file:
 	writer = csv.writer(file)
 	writer.writerow(["id","device","svi_id","standby_id","virtual_address","preempt","priority"])
 	writer.writerow(["1","DLS1","20,30,40,50","2,3,4,5","10.0.20.254, 10.0.30.254, 10.0.40.254, 10.0.50.254","yes","100,90,100,90"])
 	writer.writerow(["2","DLS2","20,30,40,50","2,3,4,5","10.0.20.254, 10.0.30.254, 10.0.40.254, 10.0.50.254","yes","90,100,90,100"])	
 	file.close()	
 
-with open('roles/automation/CSV/spanning_tree.csv','w',newline='') as file:
+with open('roles/Layer2/CSV/spanning_tree.csv','w',newline='') as file:
 	writer = csv.writer(file)
 	writer.writerow(["id","device","mode","associated_vlan","priority"])
 	writer.writerow(["1","DLS1","rapid-pvst","20,30,99,1000","4096"])
@@ -102,26 +104,34 @@ with open('roles/automation/CSV/spanning_tree.csv','w',newline='') as file:
 	writer.writerow(["4","DLS2","rapid-pvst","20,30","8192"])
 	file.close()
 
-with open('roles/automation/CSV/OSPF.csv','w',newline='') as file:
+
+
+with open('roles/Layer3/CSV/OSPF.csv','w',newline='') as file:
 	writer = csv.writer(file)
-	writer.writerow(["id","device","interface","passive_interface","router_id","area","ospf_id"])
-	writer.writerow(["1","DLS1","port-channel 2, port-channel 4, loopback 0","","10.1.1.10","0","20"])
-	writer.writerow(["2","DLS2","port-channel 3, port-channel 5, loopback 0","","10.2.2.10","0","20"])
-	writer.writerow(["3","CLS1","port-channel 2, port-channel 5, loopback 0","loopback 1","1.1.1.1","0","20"])
-	writer.writerow(["4","CLS2","port-channel 3, port-channel 4, loopback 0","loopback 1","2.2.2.2","0","20"])
-	writer.writerow(["5","DLS1","vlan 50, loopback 0","vlan 20, vlan 30, vlan 40, vlan 70, vlan 99, vlan 1000","10.1.1.10","20","20"])
-	writer.writerow(["6","DLS2","vlan 50, loopback 0","vlan 20, vlan 30, vlan 40, vlan 70, vlan 99, vlan 1000","10.2.2.10","20","20"])
+	writer.writerow(["id","device","interface","router_id","area","ospf_id"])
+	writer.writerow(["1","DLS1","port-channel 2, port-channel 4, loopback 0","10.1.1.10","0","20"])
+	writer.writerow(["2","DLS2","port-channel 3, port-channel 5, loopback 0","10.2.2.10","0","20"])
+	writer.writerow(["3","CLS1","port-channel 1, port-channel 2, port-channel 5, loopback 0, g1/0","1.1.1.1","0","20"])
+	writer.writerow(["4","CLS2","port-channel 1, port-channel 3, port-channel 4, loopback 0, g1/0","2.2.2.2","0","20"])
+	writer.writerow(["5","DLS1","vlan 50, loopback 0","10.1.1.10","20","20"])
+	writer.writerow(["6","DLS2","vlan 50, loopback 0","10.2.2.10","20","20"])
+	writer.writerow(["5","R1","g0/1","100.1.1.100","0","20"])
+	writer.writerow(["6","R2","g0/1","100.2.2.100","0","20"])
+	writer.writerow(["6","R3","g0/1","100.3.3.100","0","20"])
 	file.close()
 
-'''
-with open('roles/Vlan/CSV/mgmt_csv.csv','w',newline='') as file:
+with open('roles/Layer3/CSV/EIGRP.csv','w',newline='') as file:
 	writer = csv.writer(file)
-	writer.writerow(["id","vlan_id","name"])
-	writer.writerow(["1","10","Server"])
-	writer.writerow(["2","20","office"])
-	writer.writerow(["6","70","native"])	
-	writer.writerow(["7","99","management"])	
+	writer.writerow(["id","device","eigrp_name","network","router_id"])
+	writer.writerow(["1","R3","homelab","10.17.1.6 0.0.0.3","100.3.3.100"])
+	writer.writerow(["2","R2","homelab","10.17.1.5 0.0.0.3","100.2.2.100"])
 	file.close()
-	
-	
-	'''
+
+with open('roles/Layer3/CSV/BGP.csv','w',newline='') as file:
+	writer = csv.writer(file)
+	writer.writerow(["id","device","neighbor","as","remote_as","password"])
+	writer.writerow(["1","R3","10.17.1.1","65002","65001","homelab"])
+	writer.writerow(["2","R1","10.17.1.2","65001","65002","homelab"])
+	file.close()
+
+

@@ -1,0 +1,26 @@
+{% if inventory_hostname in groups['core'] or inventory_hostname in groups['router'] %}
+{% if skip_loop is not defined or not skip_loop %}
+{% if inventory_hostname == item.device %}
+{% if 'CLS' in item.device %}
+interface loopback 0 
+ip address {{ item.loopback0 }}
+interface loopback 1 
+ip address {{ item.loopback1 }}
+interface g1/0
+no switchport
+ip address {{ item.g10 }}
+no shut
+{% elif 'R' in item.device %}
+interface loopback 0 
+ip address {{ item.loopback0 }}
+interface g0/0
+ip address {{ item.g00 }}
+no shut
+interface g0/1
+ip address {{ item.g01 }}
+no shut
+{% endif %}
+{% endif %}
+{% endif %}
+{% endif %}
+

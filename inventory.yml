@@ -8,10 +8,15 @@ ansible_network_os=ios
 ansible_user=admin
 ansible_password=PaSsWoRd
 
-[switches:children]
+[switch:children]
 core
 distribution
 access 
+
+[router]
+R1 ansible_host=192.168.1.10
+R2 ansible_host=192.168.1.11
+R3 ansible_host=192.168.1.12
 
 [core]
 CLS1 ansible_host=192.168.1.1

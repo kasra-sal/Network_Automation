@@ -1,0 +1,3 @@
+id,device,neighbor,as,remote_as,password
+1,R3,10.17.1.1,65002,65001,homelab
+2,R1,10.17.1.2,65001,65002,homelab

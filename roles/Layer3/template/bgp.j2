@@ -1,0 +1,9 @@
+{% for i in bgp_list %}
+{% if inventory_hostname == i.device %}
+router bgp {{ i.as }}
+neighbor {{ i.neighbor }} remote-as {{ i.remote_as }}
+neighbor {{ i.neighbor }} password {{ i.password }}
+{% endif %}
+{% endfor %}
+
+

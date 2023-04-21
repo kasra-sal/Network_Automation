@@ -1,0 +1,9 @@
+{% if inventory_hostname in groups['distribution'] or inventory_hostname in groups['access'] %}
+{% for i in vlan_list %}
+  vlan {{ i.vlan_id }}
+  name {{i.name }}
+{% endfor %}
+{% endif %}
+
+
+

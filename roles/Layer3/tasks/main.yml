@@ -1,0 +1,54 @@
+---
+    
+- name: Process Required CSV
+  block:      
+    - name: Reading SVI CSV file
+      read_csv:
+        path: "roles/Layer3/CSV/SVI.csv"
+        delimiter: ","
+      register: svi
+    
+    - name: Reading OSPF CSV file
+      read_csv:
+        path: "roles/Layer3/CSV/OSPF.csv"
+        delimiter: ","
+      register: ospf
+
+    - name: Reading EIGRP CSV file
+      read_csv:
+        path: "roles/Layer3/CSV/EIGRP.csv"
+        delimiter: ","
+      register: eigrp
+
+    - name: Reading BGP CSV file
+      read_csv:
+        path: "roles/Layer3/CSV/BGP.csv"
+        delimiter: ","
+      register: bgp
+      
+- name: Implementing Required Configs
+  block:
+    - name: Setting appropriate hostname
+      ios_config:
+        lines: hostname {{inventory_hostname }}
+    - name: svi config
+      ios_config: src=roles/Layer3/template/svi.j2
+      tags: svi_config      
+       
+    - name: int config
+      ios_config: src=roles/Layer3/template/int_config.j2 
+      with_items: "{{ layer3_interfaces }}"
+   
+    - name: ospf config
+      ios_config: src=roles/Layer3/template/ospf.j2 
+      tags: ospf_config        
+    
+    - name: eigrp config
+      ios_config: src=roles/Layer3/template/eigrp.j2 
+      tags: eigrp_config   
+    
+    - name: bgp config
+      ios_config: src=roles/Layer3/template/bgp.j2 
+      tags: bgp_config   
+    
+ 
