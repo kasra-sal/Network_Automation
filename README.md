@@ -150,3 +150,4 @@ SVI
 HSRP
 OSPF
 
+TFTP and config pulling needs to be added
