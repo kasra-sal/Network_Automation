@@ -1,25 +1,25 @@
 {% for i in etherchannel_list %}
-{% if inventory_hostname == i.device %}
-{% if i.layer == "2" %}
-interface range {{ i.interface }}
-switchport
-channel-group {{ i.portchannel_id }} mode {{ i.mode }}
-interface port-channel {{ i.portchannel_id }}
-switchport trunk encapsulation dot1q
-switchport mode {{ i.trunk_mode }}
-switchport trunk allowed vlan {{ i.allowed_vlans }}
-switchport trunk native vlan {{ i.native_vlan }}
-port-channel load-balance src-dst-mac
-{% elif i.layer == "3" %}
-interface range {{ i.interface }}
-no switchport
-channel-group {{ i.portchannel_id }} mode {{ i.mode }}
-interface port-channel {{ i.portchannel_id }}
-no switchport
-ip address {{ i.ip_address }} {{ i.subnetmask }}
-port-channel load-balance src-dst-mac
-port-channel load-balance src-dst-ip
-{% endif %}
-{% endif %}
+  {% if inventory_hostname == i.device %}
+  {% if i.layer == "2" %}
+  interface range {{ i.interface }}
+  switchport
+  channel-group {{ i.portchannel_id }} mode {{ i.mode }}
+  interface port-channel {{ i.portchannel_id }}
+  switchport trunk encapsulation dot1q
+  switchport mode {{ i.trunk_mode }}
+  switchport trunk allowed vlan {{ i.allowed_vlans }}
+  switchport trunk native vlan {{ i.native_vlan }}
+  port-channel load-balance src-dst-mac
+  {% elif i.layer == "3" %}
+  interface range {{ i.interface }}
+  no switchport
+  channel-group {{ i.portchannel_id }} mode {{ i.mode }}
+  interface port-channel {{ i.portchannel_id }}
+  no switchport
+  ip address {{ i.ip_address }} {{ i.subnetmask }}
+  port-channel load-balance src-dst-mac
+  port-channel load-balance src-dst-ip
+  {% endif %}
+  {% endif %}
 {% endfor %}
 

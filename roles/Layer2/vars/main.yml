@@ -2,9 +2,8 @@
 
 vlan_list: "{{ vlans.list }}"
 unused_list: "{{ unused_ports.list }}"
-trunk_list: "{{ trunk_port.list }}"
 access_port_list: "{{ access_port.list }}"
 etherchannel_list: "{{ etherchannel.list }}"
 stp_list: "{{ spanning_tree.list }}"
 hsrp_list: "{{ hsrp.list }}"
-
+svi_list: "{{ svi.list }}"

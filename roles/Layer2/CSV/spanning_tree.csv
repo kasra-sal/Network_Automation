@@ -3,3 +3,7 @@ id,device,mode,associated_vlan,priority
 2,DLS2,rapid-pvst,"40,50",4096
 3,DLS1,rapid-pvst,"40,50",8192
 4,DLS2,rapid-pvst,"20,30",8192
+1,DLS3,rapid-pvst,"20,30,99,1000",4096
+2,DLS4,rapid-pvst,"40,50",4096
+3,DLS3,rapid-pvst,"40,50",8192
+4,DLS4,rapid-pvst,"20,30",8192

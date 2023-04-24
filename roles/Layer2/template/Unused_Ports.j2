@@ -1,13 +1,13 @@
 {% for i in unused_list %}
-{% if inventory_hostname == i.device %}
-{% if skip_loop is not defined or not skip_loop %}
-interface range {{ i.interface }}
-switchport mode access
-switchport access vlan 70
-shutdown
-{% if loop.first %}{% set skip_loop = True %}{% endif %}
-{% endif %}
-{% endif %}
+  {% if inventory_hostname == i.device %}
+  {% if skip_loop is not defined or not skip_loop %}
+  interface range {{ i.interface }}
+  switchport mode access
+  switchport access vlan 70
+  shutdown
+  {% if loop.first %}{% set skip_loop = True %}{% endif %}
+  {% endif %}
+  {% endif %}
 {% endfor %}
 
 

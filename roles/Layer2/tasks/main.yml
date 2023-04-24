@@ -1,7 +1,8 @@
 ---
 
 - name: Process Required CSV
-  block:    
+  block:  
+    
     - name: Reading Vlan CSV file
       read_csv:
         path: "roles/Layer2/CSV/sl2.csv"
@@ -13,12 +14,6 @@
         path: "roles/Layer2/CSV/Unused_Ports.csv"
         delimiter: ","
       register: unused_ports
-      
-    - name: Reading Trunk CSV file
-      read_csv:
-        path: "roles/Layer2/CSV/trunk_ports.csv"
-        delimiter: ","
-      register: trunk_port
 
     - name: Reading Access CSV file
       read_csv:
@@ -38,6 +33,12 @@
         delimiter: ","
       register: spanning_tree
     
+    - name: Reading SVI CSV file
+      read_csv:
+        path: "roles/Layer2/CSV/SVI.csv"
+        delimiter: ","
+      register: svi
+      
     - name: Reading HSRP CSV file
       read_csv:
         path: "roles/Layer2/CSV/HSRP.csv"
@@ -46,46 +47,39 @@
 
 - name: Implementing Required Configs
   block:
+  
     - name: Setting appropriate hostname
       ios_config:
-        lines: hostname {{inventory_hostname }}
+        lines: hostname {{ inventory_hostname }}
     
     - name: vlan config
       ios_config: src=roles/Layer2/template/vlan.j2
       tags: vlan_config
-    
+  
     - name: shutting down unused ports and assigning them to vlan 70
       ios_config: src=roles/Layer2/template/Unused_Ports.j2
       tags: unused_ports_config
-    
-    - name: trunk port config
-      ios_config: src=roles/Layer2/template/trunk_ports.j2 
-      tags: trunk_config
-      vars:
-        ansible_command_timeout: 120
 
     - name: access port config
       ios_config: src=roles/Layer2/template/access_ports.j2 
       tags: access_config
-      vars:
-        ansible_command_timeout: 120
       
     - name: etherchannel config
       ios_config: src=roles/Layer2/template/etherchannel.j2
-      tags: etherchannel_config  
-      vars:
-        ansible_command_timeout: 120
+      tags: etherchannel_config
+    
+    - name: svi config
+      ios_config: src=roles/Layer2/template/svi.j2
+      tags: svi_config  
+          
+    - name: stp config
+      ios_config: src=roles/Layer2/template/spanning_tree_info.j2 
+      tags: stp_config
         
     - name: hsrp config
       ios_config: src=roles/Layer2/template/hsrp.j2
       tags: hsrp_config
-      vars:
-        ansible_command_timeout: 120
-   
-    - name: stp config
-      ios_config: src=roles/Layer2/template/spanning_tree_info.j2 
-      tags: stp_config
-      vars:
-        ansible_command_timeout: 240
+ 
+
 
 
