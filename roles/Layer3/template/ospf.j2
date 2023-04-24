@@ -1,0 +1,29 @@
+{% set configured_hosts =[] %}
+{% for i in ospf_list %}
+  {% if inventory_hostname == i.device %}
+  {% if inventory_hostname not in configured_hosts %}
+  ip routing
+  ipv6 unicast-routing
+  router ospfv3 {{ i.ospf_id }}
+  {% if item.redistribute is defined %}
+  address-family ipv4 
+  redistribute bgp 65001 metric-type 2
+  exit
+  {% endif%}
+  router-id {{ i.router_id }}
+  passive-interface default
+  interface range {{ i.interface }}
+  ipv6 enable
+  ospfv3 {{ i.ospf_id }} ipv4 area {{ i.area }}
+  no shutdown
+  {{ configured_hosts.append(inventory_hostname) }}
+  {% elif inventory_hostname in configured_hosts %}
+  interface range {{ i.interface }}
+  ipv6 enable
+  ospfv3 {{ i.ospf_id }} ipv4 area {{ i.area }}
+  no shutdown
+  {% endif %}
+  {% endif %}
+{% endfor %}
+
+

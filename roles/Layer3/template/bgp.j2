@@ -1,0 +1,16 @@
+{% for i in bgp_list %}
+  {% if inventory_hostname == i.device %}
+  router bgp {{ i.as }}
+  neighbor {{ i.neighbor }} remote-as {{ i.remote_as }}
+  neighbor {{ i.neighbor }} password homelab
+  {% if i.network !="" %}
+  {% set network = i.network.split(',') %}
+  {% for index in network %}
+    {% set index = index.split(" ") %}
+    network {{ index[0] }} mask {{ index[1] }} 
+  {% endfor %}
+  {% endif %}
+  {% endif %}
+{% endfor %}
+
+

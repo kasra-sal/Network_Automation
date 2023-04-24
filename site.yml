@@ -1,0 +1,19 @@
+---
+- name: Generate Layer 2 Config
+  hosts: distribution:access:core:management
+  gather_facts: true
+  roles:
+   - Layer2
+   
+- name: Generate Layer 3 Config
+  hosts: switch:router:management
+  gather_facts: true
+  roles:
+   - Layer3
+   
+   
+- name: Backup Config
+  hosts: switch:router:management
+  gather_facts: true
+  roles:
+   - Backup

@@ -1,0 +1,16 @@
+{% if inventory_hostname in groups['access'] %}
+{% for i in access_port_list %}
+  {% if "-" in i.interface | string %}
+  interface range {{ i.interface }}
+  {% else %}
+  interface {{ i.interface }}
+  {% endif %}
+  switchport mode access
+  {% if i.voice != "" and i.vlan_id == "" %}
+  switchport voice vlan {{ i.voice }}
+  {% elif i.voice == "" and i.vlan_id !="" %}
+  switchport access vlan {{ i.vlan_id }}
+  {% endif %}
+  no shut
+{% endfor %}
+{% endif %}
