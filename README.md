@@ -139,14 +139,228 @@ It may take a while to go through, for the sake of simplicity, I will not be exp
 
 https://user-images.githubusercontent.com/118489496/233573072-e1bf80ba-2b43-40c4-966a-f2b4c1eb6b7d.mp4
 
+# Jinja Template Outputs
 
-To have a better understanding of what each jinja template does, I screenshotted some of the outputs: (Need to be Finished)
+To keep this section short, I've only included 1 template output for each task.
+Here is what some of the Jinja templates will output:
 
-VLAN
-Unused Ports
-STP
-SVI
-HSRP
-OSPF
+## VLAN
+DLS1 :
+```
+{% if inventory_hostname in groups['distribution'] or inventory_hostname in groups['access'] %}
+{% for i in vlan_list %}
+  vlan {{ i.vlan_id }}
+  name {{i.name }}
+{% endfor %}
+{% endif %}
+```
+```
+vlan 20
+name office
+vlan 30
+name accounting
+vlan 40
+name voip
+vlan 50
+name guest
+vlan 70
+name unused_ports
+vlan 1000
+name native
+vlan 99
+name management
+```
 
-TFTP and config pulling needs to be added
+## Unused Ports
+DLS1:  
+```
+{% for i in unused_list %}
+  {% if inventory_hostname == i.device %}
+  {% if skip_loop is not defined or not skip_loop %}
+  interface range {{ i.interface }}
+  switchport mode access
+  switchport access vlan 70
+  shutdown
+  {% if loop.first %}{% set skip_loop = True %}{% endif %}
+  {% endif %}
+  {% endif %}
+{% endfor %}
+
+```
+```
+interface range g0/0-3, g1/2-3, g3/0-2
+switchport mode access
+switchport access vlan 70
+shutdown
+```
+
+## STP
+DLS1: Template
+```
+{% if inventory_hostname in groups['distribution'] or inventory_hostname in groups['access'] %}
+spanning-tree mode rapid-pvst
+spanning-tree portfast edge default
+{% for i in stp_list %}
+  {% if inventory_hostname == i.device %}
+  {% if skip_loop is not defined or not skip_loop %}
+  {% set associated_vlan = i.associated_vlan.split(',') %}
+  {% for index in range(associated_vlan|length) %}
+    spanning-tree vlan {{ associated_vlan[index] }} priority {{ i.priority }}
+  {% endfor %}
+  {% else %}
+  {% if loop.first %}{% set skip_loop = True %}{% endif %}
+  {% endif %}
+  {% endif %} 
+{% endfor %}
+{% endif %}
+```
+Output:
+```
+spanning-tree mode rapid-pvst
+spanning-tree portfast edge default
+spanning-tree vlan 20 priority 4096
+spanning-tree vlan 30 priority 4096
+spanning-tree vlan 99 priority 4096
+spanning-tree vlan 1000 priority 4096
+spanning-tree vlan 40 priority 8192
+spanning-tree vlan 50 priority 8192
+```
+
+## SVI
+DLS1: Template
+```
+{% for i in svi_list %}
+  {% if inventory_hostname == i.device %}
+  {% if skip_loop is not defined or not skip_loop %}
+  {% set vlan_id = i.vlan_id.split(',') %}
+  {% set ip_address = i.ip_address.split(',') %}
+  {% for index in range(vlan_id|length) %}
+    interface vlan{{ vlan_id[index] }}
+    ip address {{ ip_address[index] }} 255.255.255.0
+    no shutdown
+  {% endfor %}
+  {% endif %}
+  {% endif %}
+{% endfor %}
+```
+Output:
+```
+interface vlan20
+ip address 10.0.20.253 255.255.255.0
+no shutdown
+interface vlan30
+ip address  10.0.30.253 255.255.255.0
+no shutdown
+interface vlan40
+ip address  10.0.40.253 255.255.255.0
+no shutdown
+interface vlan50
+ip address  10.0.50.253 255.255.255.0
+no shutdown
+```
+## HSRP
+DLS1: Template
+```
+{% if inventory_hostname in groups['distribution'] %}
+{% for i in hsrp_list %}
+  {% if inventory_hostname == i.device %}
+  {% if skip_loop is not defined or not skip_loop %}
+  {% set svi_id = i.svi_id.split(',') %}
+  {% set standby_id = i.standby_id.split(',') %}
+  {% set priority = i.priority.split(',') %}
+  {% set virtual_address = i.virtual_address.split(',') %}
+  {% for index in range(svi_id|length) %}
+    interface vlan{{ svi_id[index] }}
+    standby version 2
+    standby {{ standby_id[index] }} ip {{ virtual_address[index] }} 
+    standby {{ standby_id[index] }} preempt
+    standby {{ standby_id[index] }} priority {{ priority[index] }}
+  {% endfor %}
+  {% endif %}
+  {% endif %}
+{% endfor %}
+{% endif %}
+```
+Output:
+```
+interface vlan20
+standby version 2
+standby 2 ip 10.0.20.254 
+standby 2 preempt
+standby 2 priority 100
+interface vlan30
+standby version 2
+standby 3 ip  10.0.30.254 
+standby 3 preempt
+standby 3 priority 90
+interface vlan40
+standby version 2
+standby 4 ip  10.0.40.254 
+standby 4 preempt
+standby 4 priority 100
+interface vlan50
+standby version 2
+standby 5 ip  10.0.50.254 
+standby 5 preempt
+standby 5 priority 90
+interface vlan99
+standby version 2
+standby 9 ip  192.168.1.254 
+standby 9 preempt
+standby 9 priority 100
+```
+## OSPF
+
+CLS1: Template
+```
+{% set configured_hosts =[] %}
+{% for i in ospf_list %}
+  {% if inventory_hostname == i.device %}
+  {% if inventory_hostname not in configured_hosts %}
+  ip routing
+  ipv6 unicast-routing
+  router ospfv3 {{ i.ospf_id }}
+  {% if item.redistribute is defined %}
+  address-family ipv4 
+  redistribute bgp 65001 metric-type 2
+  exit
+  {% endif%}
+  router-id {{ i.router_id }}
+  passive-interface default
+  interface range {{ i.interface }}
+  ipv6 enable
+  ospfv3 {{ i.ospf_id }} ipv4 area {{ i.area }}
+  no shutdown
+  {{ configured_hosts.append(inventory_hostname) }}
+  {% elif inventory_hostname in configured_hosts %}
+  interface range {{ i.interface }}
+  ipv6 enable
+  ospfv3 {{ i.ospf_id }} ipv4 area {{ i.area }}
+  no shutdown
+  {% endif %}
+  {% endif %}
+{% endfor %}
+```
+Output:
+```
+ip routing
+ipv6 unicast-routing
+router ospfv3 20
+router-id 1.1.1.1
+passive-interface default
+interface range vlan 99 , port-channel 1, g1/0-3, g2/0
+ipv6 enable
+ospfv3 20 ipv4 area 0
+no shutdown
+```
+
+# TFTP
+Although there are choices like sftp, I decided to keep it simple since this is just a lab. So I just configured my server and connected it to the same lan as the topology. 
+
+Here is the screen shot of configs being pulled from the devices:
+![Screenshot from 2023-04-24 18-12-52](https://user-images.githubusercontent.com/118489496/234131171-e6bd5219-55a1-42bb-ba9d-40202ea34bf0.png)
+![Screenshot from 2023-04-24 18-12-38](https://user-images.githubusercontent.com/118489496/234131175-67c49563-5245-4951-aef8-2663533ef620.png)
+
+
+
+
