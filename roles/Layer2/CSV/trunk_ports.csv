@@ -1,5 +1,0 @@
-id,device,interface,allowed_vlans,native_vlan,trunk_mode
-1,DLS1,g1/2,"20,30,40,50,99",1000,dynamic desirable
-2,DLS2,g1/2,"20,30,40,50,99",1000,dynamic desirable
-3,ALS1,g1/2,"20,30,40,50,99",1000,dynamic auto
-4,ALS2,g1/2,"20,30,40,50,99",1000,dynamic auto

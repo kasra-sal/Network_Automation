@@ -1,3 +1,0 @@
-id,device,eigrp_name,network,router_id
-1,R3,homelab,10.17.1.6 0.0.0.3,100.3.3.100
-2,R2,homelab,10.17.1.5 0.0.0.3,100.2.2.100
