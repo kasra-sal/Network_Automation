@@ -130,14 +130,11 @@ To run the playbook provided, use the following command:
 ```
 ansible-playbook site.yml -i inventory.yml
 ```
-It may take a while to go through, for the sake of simplicity, I will not be explaining how each file is being pulled and exactly where but I will give a brief description of how it's done:
+It may take a while to go through, for the sake of simplicity, I won't go as far as explaining how each file is being pulled and exactly where but I will give a brief description of how it's done:
 1. CSV file is generated through "csv_maker.py". I could've done it directly through excel but oh oops.
 2. Added an entry to main.yml inside respective roles folder => tasks.
 3. Inside the template folde, I created a jinja template respective to the csv
 4. Back into main.yml inside tasks folder, I added an entry to replace necessary parameters inside the jinja template and then push them to the device using ios_config modules.
-
-
-https://user-images.githubusercontent.com/118489496/233573072-e1bf80ba-2b43-40c4-966a-f2b4c1eb6b7d.mp4
 
 # Jinja Template Outputs
 
