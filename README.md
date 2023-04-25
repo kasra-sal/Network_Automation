@@ -142,7 +142,7 @@ inside your ansible.cfg file, type in the following command if it doesn't alread
 [defaults]
 host_key_checking = False
 ``` 
-It's important to know that, this change should ONLY be implemented in a lab environment. 
+It's important to know that, this change should ONLY be implemented in a lab environment as it poses a securirty risk by using weaker encryption for key pairing. 
 After we have configured the ansible.cfg, change the directory to the project directory and run the following commands:
 ```
 cd Network_Automation
