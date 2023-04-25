@@ -10,6 +10,32 @@ This repository contains necessary yaml files to perform this basic automation. 
   -  The devices are hosted on gns3 vm, you will need to acquire ios qemus through purchasing license from cisco modeling labs.
   -  You may want to host the topology on a server or cloud for better performance and scalability, as 12 cores will not be enough to handle more than what's already implemented.
 
+# Table of Contents
+- [Getting started](#getting-started)
+  * [Prerquisites](#prerquisites)
+  * [Git Installation](#git-installation)
+  * [Ansible Installation](#ansible-installation)
+  * [VMware or VirtualBox Installation](#vmware-or-virtualbox-installation)
+  * [GNS3 Installation](#gns3-installation)
+  * [Vios Images](#vios-images)
+- [Cloning this repository](#cloning-this-repository)
+- [Topology Diagrams](#topology-diagrams)
+- [Initializing Configs for Remote Management](#initializing-configs-for-remote-management)
+  * [Router:](#router-)
+  * [Switch:](#switch-)
+- [Configuring Ansible for Remote Management](#configuring-ansible-for-remote-management)
+- [Jinja Template Outputs](#jinja-template-outputs)
+  * [VLAN](#vlan)
+  * [Unused Ports](#unused-ports)
+  * [STP](#stp)
+  * [SVI](#svi)
+  * [HSRP](#hsrp)
+  * [OSPF](#ospf)
+- [TFTP](#tftp)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
+
 # Getting started
 
 ## Prerquisites
@@ -56,7 +82,7 @@ git clone https://github.com/kasra-sal/Network_Automation.git
 ```
 
 # Topology Diagrams
-To gain a better understanding of what we will be doing, I made topology diagrams. Use them as reference point.
+To gain a better understanding of what we will be doing, I made topology diagrams. Use them as reference point. (Click to zoom in)
 
 ![Topology](https://user-images.githubusercontent.com/118489496/234165650-331bf932-a669-4fae-9560-7b0b3fbf6faa.png)
 
