@@ -58,6 +58,7 @@ git clone https://github.com/kasra-sal/Network_Automation.git
 # Topology Diagrams
 To gain a better understanding of what we will be doing, I made topology diagrams. Use them as reference point.
 
+![Topology](https://user-images.githubusercontent.com/118489496/234165650-331bf932-a669-4fae-9560-7b0b3fbf6faa.png)
 
 
 
