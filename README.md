@@ -1,10 +1,10 @@
 # Network Automation
 
-The goal of this project is to automate configuration of switches and routers using ansible. This project is used to demonstrate basic understanding of ansible and jinja. This project was NOT intended to show knowledge of networking, although basic networking has been done to make this project functional.
+The aim of this project is to utilize Ansible and Jinja to automate the configuration of switches and routers. It serves as a means to demonstrate a fundamental comprehension of these technologies. While basic networking knowledge was applied to make the project functional, the project itself was not intended to showcase networking expertise.
 
 # Before We Start
 
-This repository contains necessary yaml files to perform this basic automation. HOWEVER, I decided to not use some of the built in modules such as ios.ios.l2_interfaces to configure as it somewhat limited what I had planned. So I just generated my own csv files and used jinja to import necessary variables into a config format to allow more customizability. It's worth noting a few things:
+Please note that this repository comprises the essential YAML files needed to execute this basic automation. However, it is important to mention that certain built-in modules, such as ios.ios.l2_interfaces, were not employed due to limitations that would have constrained the desired outcome. Instead, custom CSV files were generated and Jinja was utilized to import necessary variables into a configuration format, providing more flexibility. It's worth noting a few things:
   -  The contents in the repo are a base point of what could be done, feel free to take ideas and improve it.
   -  This is not an educational project for networking, it is intended to illustrate how you could send configs manually or through pipelines.
   -  The devices are hosted on gns3 vm, you will need to acquire ios qemus through purchasing license from cisco modeling labs.
@@ -21,8 +21,8 @@ This repository contains necessary yaml files to perform this basic automation. 
 - [Cloning this repository](#cloning-this-repository)
 - [Topology Diagrams](#topology-diagrams)
 - [Initializing Configs for Remote Management](#initializing-configs-for-remote-management)
-  * [Router:](#router-)
-  * [Switch:](#switch-)
+  * [Router Initial Config](#router-)
+  * [Switch Initial Config](#switch-)
 - [Configuring Ansible for Remote Management](#configuring-ansible-for-remote-management)
 - [Jinja Template Outputs](#jinja-template-outputs)
   * [VLAN](#vlan)
@@ -32,8 +32,6 @@ This repository contains necessary yaml files to perform this basic automation. 
   * [HSRP](#hsrp)
   * [OSPF](#ospf)
 - [TFTP](#tftp)
-
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 
 # Getting started
@@ -157,11 +155,14 @@ To run the playbook provided, use the following command:
 ```
 ansible-playbook site.yml -i inventory.yml
 ```
-It may take a while to go through, for the sake of simplicity, I won't go as far as explaining how each file is being pulled and exactly where but I will give a brief description of how it's done:
-1. CSV file is generated through "csv_maker.py". I could've done it directly through excel but oh oops.
-2. Added an entry to main.yml inside respective roles folder => tasks.
-3. Inside the template folde, I created a jinja template respective to the csv
-4. Back into main.yml inside tasks folder, I added an entry to replace necessary parameters inside the jinja template and then push them to the device using ios_config modules.
+The process of generating the CSV file and utilizing it for remote configuration is outlined below, with a brief description of each step:
+
+1. A CSV file is created using "csv_maker.py". Although Excel could have been used, this script was utilized instead.
+2. An entry is added to main.yml within the respective roles folder => tasks.
+3. A Jinja template is created in the template folder that corresponds to the CSV file.
+4. In main.yml within the tasks folder, an entry is added to replace the necessary parameters within the Jinja template and then push them to the device using the ios_config modules.
+
+Keep in mind that due to virtualization limitations, you may need to wait for longer period of time for the config to go through. If you receive "Timeout" error, increase timeout time for that specific task.
 
 # Jinja Template Outputs
 
