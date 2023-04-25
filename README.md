@@ -84,6 +84,8 @@ To gain a better understanding of what we will be doing, I made topology diagram
 
 ![Topology](https://user-images.githubusercontent.com/118489496/234165650-331bf932-a669-4fae-9560-7b0b3fbf6faa.png)
 
+Here is my initial hand drawn draft:
+![Hand_Drawn_Topology](https://user-images.githubusercontent.com/118489496/234173833-86b5ff00-a78e-4fe8-9b1c-818f970453e5.jpg)
 
 
 # Initializing Configs for Remote Management
